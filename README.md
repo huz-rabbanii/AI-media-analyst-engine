@@ -1,6 +1,6 @@
 # AI Media Analyst Engine
 
-Real-time tech-news ingestion → AI insights → dashboard. **Phase 1 only** is shipped: RSS ingestion + SQLite + minimal FastAPI.
+Real-time tech-news ingestion → AI insights → analyst dashboard. Built in vertical slices; each phase is independently runnable.
 
 ## Setup
 
