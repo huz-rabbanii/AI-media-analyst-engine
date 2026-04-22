@@ -12,6 +12,13 @@ copy .env.example .env
 uvicorn app.main:app --reload
 ```
 
+## Project layout
+
+```
+app/        FastAPI backend (ingest, summarize, intel, db)
+frontend/   Next.js dashboard (briefing, articles, chat)
+```
+
 ## Endpoints
 
 | Method | Path        | Purpose                                  |
