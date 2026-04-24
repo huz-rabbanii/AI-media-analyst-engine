@@ -45,3 +45,11 @@ Expect `inserted >= 10` from `>= 2` distinct sources.
 - Phase 2: per-article LLM summaries (`OPENAI_API_KEY` slot already in `.env.example`)
 - Phase 3: Vite + React + Tailwind dashboard
 - Phase 4: trend detection + AI chat
+
+## Configuration
+
+Required env vars (see `.env.example`):
+
+- `OPENAI_API_KEY` — needed for `/summarize`, `/trends`, `/chat`
+- `OPENAI_MODEL` — defaults to `gpt-4o-mini`
+- `DATABASE_URL` — defaults to local SQLite (`media.db`)
