@@ -53,3 +53,9 @@ Required env vars (see `.env.example`):
 - `OPENAI_API_KEY` — needed for `/summarize`, `/trends`, `/chat`
 - `OPENAI_MODEL` — defaults to `gpt-4o-mini`
 - `DATABASE_URL` — defaults to local SQLite (`media.db`)
+
+## Troubleshooting
+
+- **`/summarize` returns 0 summarized**: many RSS items have descriptions below the 200-character threshold. The endpoint scans all pending items and stops after `limit` successes.
+- **CORS errors from frontend**: backend allows `localhost:3000` and `127.0.0.1:3000` only.
+- **`OPENAI_API_KEY is not set`**: `.env` must be present in the project root before starting uvicorn.
