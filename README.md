@@ -25,8 +25,11 @@ frontend/   Next.js dashboard (briefing, articles, chat)
 |--------|-------------|------------------------------------------|
 | GET    | `/health`   | Liveness                                 |
 | POST   | `/ingest`   | Pull all configured RSS feeds into DB    |
+| POST   | `/summarize`| Generate AI summaries for pending items  |
 | GET    | `/articles` | List articles (`?source=`, `?limit=`)    |
 | GET    | `/sources`  | Distinct source names                    |
+| GET    | `/trends`   | LLM-detected themes (cached 10 min)      |
+| POST   | `/chat`     | Q&A grounded in summarized articles      |
 
 ## Verify (Phase 1 success criteria)
 
