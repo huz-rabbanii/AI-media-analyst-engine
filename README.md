@@ -31,14 +31,15 @@ frontend/   Next.js dashboard (briefing, articles, chat)
 | GET    | `/trends`   | LLM-detected themes (cached 10 min)      |
 | POST   | `/chat`     | Q&A grounded in summarized articles      |
 
-## Verify (Phase 1 success criteria)
+## Verify
 
 ```powershell
 curl -X POST http://127.0.0.1:8000/ingest
 curl http://127.0.0.1:8000/articles?limit=10
+curl -X POST "http://127.0.0.1:8000/summarize?limit=10"
 ```
 
-Expect `inserted >= 10` from `>= 2` distinct sources.
+Expect `inserted >= 10` from `>= 2` distinct sources, then non-empty `ai_summary` on at least a few articles.
 
 ## Next phases (not built yet)
 
