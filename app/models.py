@@ -10,5 +10,6 @@ class Article(SQLModel, table=True):
     title: str
     source: str = Field(index=True)
     summary: Optional[str] = None
+    ai_summary: Optional[str] = Field(default=None, index=True)
     published_at: Optional[datetime] = Field(default=None, index=True)
     fetched_at: datetime = Field(default_factory=datetime.utcnow)

@@ -3,3 +3,4 @@ uvicorn[standard]
 sqlmodel
 feedparser
 pydantic-settings
+openai>=1.0

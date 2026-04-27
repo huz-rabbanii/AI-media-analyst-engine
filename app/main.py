@@ -1,12 +1,13 @@
 from contextlib import asynccontextmanager
 
-from fastapi import Depends, FastAPI, Query
+from fastapi import Depends, FastAPI, HTTPException, Query
 from sqlmodel import Session, select
 
 from app.config import settings
 from app.database import create_db_and_tables, get_session
 from app.ingest import ingest_feeds
 from app.models import Article
+from app.summarize import summarize_pending
 
 
 @asynccontextmanager
@@ -26,6 +27,17 @@ def health():
 @app.post("/ingest")
 def ingest(session: Session = Depends(get_session)):
     return ingest_feeds(settings.FEEDS, session)
+
+
+@app.post("/summarize")
+def summarize(
+    session: Session = Depends(get_session),
+    limit: int = Query(default=10, ge=1, le=100),
+):
+    try:
+        return summarize_pending(session, limit)
+    except RuntimeError as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
 
 
 @app.get("/articles", response_model=list[Article])
