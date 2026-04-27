@@ -12,6 +12,16 @@ copy .env.example .env
 uvicorn app.main:app --reload
 ```
 
+## Frontend
+
+```powershell
+cd frontend
+npm install
+npm run dev
+```
+
+Dashboard at <http://localhost:3000> (briefing) and `/articles` (raw feed).
+
 ## Project layout
 
 ```
