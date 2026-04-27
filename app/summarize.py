@@ -50,15 +50,18 @@ def summarize_pending(session: Session, limit: int) -> dict:
         select(Article)
         .where(Article.ai_summary.is_(None))
         .order_by(Article.published_at.desc())
-        .limit(limit)
     )
     rows = session.exec(stmt).all()
 
     summarized = 0
     skipped_short = 0
+    considered = 0
     failed: list[dict] = []
 
     for art in rows:
+        if summarized >= limit:
+            break
+        considered += 1
         text = _clean(art.summary or "")
         if len(text) < settings.SUMMARY_MIN_SOURCE_CHARS:
             skipped_short += 1
@@ -74,7 +77,7 @@ def summarize_pending(session: Session, limit: int) -> dict:
 
     session.commit()
     return {
-        "candidates": len(rows),
+        "candidates": considered,
         "summarized": summarized,
         "skipped_short": skipped_short,
         "failed": failed,
