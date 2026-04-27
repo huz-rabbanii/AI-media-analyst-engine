@@ -51,11 +51,12 @@ curl -X POST "http://127.0.0.1:8000/summarize?limit=10"
 
 Expect `inserted >= 10` from `>= 2` distinct sources, then non-empty `ai_summary` on at least a few articles.
 
-## Next phases (not built yet)
+## Phases shipped
 
-- Phase 2: per-article LLM summaries (`OPENAI_API_KEY` slot already in `.env.example`)
-- Phase 3: Vite + React + Tailwind dashboard
-- Phase 4: trend detection + AI chat
+- Phase 1: RSS ingestion + SQLite + FastAPI
+- Phase 2: per-article LLM summaries (`OPENAI_API_KEY` slot in `.env.example`)
+- Phase 3: Next.js + Tailwind dashboard (briefing + articles)
+- Phase 4: trend detection + AI chat (grounded with citations)
 
 ## Configuration
 
