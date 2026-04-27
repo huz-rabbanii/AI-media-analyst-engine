@@ -8,6 +8,8 @@ import {
   runIngest,
   runSummarize,
 } from "@/lib/api";
+import TrendsPanel from "@/components/TrendsPanel";
+import ChatBox from "@/components/ChatBox";
 
 function formatDate(iso: string | null): string {
   if (!iso) return "—";
@@ -187,7 +189,10 @@ export default function Dashboard() {
             No articles. Click <span className="text-zinc-300">Ingest</span> to fetch RSS.
           </div>
         ) : (
-          <ul className="space-y-3">
+          <>
+            <TrendsPanel />
+            <ChatBox />
+            <ul className="space-y-3">
             {filtered.map((a) => {
               const body = a.ai_summary ?? stripHtml(a.summary ?? "");
               return (
@@ -221,7 +226,8 @@ export default function Dashboard() {
                 </li>
               );
             })}
-          </ul>
+            </ul>
+          </>
         )}
       </div>
     </main>

@@ -52,3 +52,40 @@ export async function runSummarize(limit = 10): Promise<SummarizeResult> {
   const res = await fetch(`${BASE}/summarize?limit=${limit}`, { method: "POST" });
   return handle<SummarizeResult>(res);
 }
+
+export type Trend = {
+  topic: string;
+  summary: string;
+  article_ids: number[];
+};
+
+export type TrendsResult = {
+  trends: Trend[];
+  analyzed: number;
+};
+
+export type Citation = {
+  id: number;
+  title: string;
+  url: string;
+  source: string;
+};
+
+export type ChatResult = {
+  answer: string;
+  citations: Citation[];
+};
+
+export async function fetchTrends(limit = 30): Promise<TrendsResult> {
+  const res = await fetch(`${BASE}/trends?limit=${limit}`, { cache: "no-store" });
+  return handle<TrendsResult>(res);
+}
+
+export async function askChat(question: string): Promise<ChatResult> {
+  const res = await fetch(`${BASE}/chat`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ question }),
+  });
+  return handle<ChatResult>(res);
+}
