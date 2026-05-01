@@ -2,6 +2,8 @@
 
 Real-time tech-news ingestion → AI insights → analyst dashboard. Built in vertical slices; each phase is independently runnable.
 
+Stack: FastAPI · SQLModel · SQLite · OpenAI `gpt-4o-mini` · Next.js 14 · Tailwind.
+
 ## Setup
 
 ```powershell
