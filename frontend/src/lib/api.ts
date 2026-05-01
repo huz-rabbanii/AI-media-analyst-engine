@@ -62,6 +62,7 @@ export type Trend = {
 export type TrendsResult = {
   trends: Trend[];
   analyzed: number;
+  cached?: boolean;
 };
 
 export type Citation = {
@@ -76,8 +77,12 @@ export type ChatResult = {
   citations: Citation[];
 };
 
-export async function fetchTrends(limit = 30): Promise<TrendsResult> {
-  const res = await fetch(`${BASE}/trends?limit=${limit}`, { cache: "no-store" });
+export async function fetchTrends(
+  limit = 30,
+  refresh = false
+): Promise<TrendsResult> {
+  const url = `${BASE}/trends?limit=${limit}${refresh ? "&refresh=true" : ""}`;
+  const res = await fetch(url, { cache: "no-store" });
   return handle<TrendsResult>(res);
 }
 

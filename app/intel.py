@@ -1,6 +1,7 @@
 import json
 import logging
 import re
+import time
 
 from openai import OpenAI
 from sqlmodel import Session, select
@@ -10,6 +11,9 @@ from app.models import Article
 
 
 logger = logging.getLogger(__name__)
+
+_TRENDS_CACHE: dict = {"data": None, "ts": 0.0, "key": None}
+_TRENDS_TTL_SECONDS = 600
 
 _STOPWORDS = set(
     "a an the and or but of to in on for with at by from as is are was were be "
@@ -38,11 +42,25 @@ def _summarized(session: Session, limit: int) -> list[Article]:
     return session.exec(stmt).all()
 
 
-def detect_trends(session: Session, limit: int = 30) -> dict:
-    """Identify trending topics across the most recent AI-summarized articles."""
+def detect_trends(session: Session, limit: int = 30, refresh: bool = False) -> dict:
+    """Identify trending topics across the most recent AI-summarized articles.
+
+    Cached in-memory for 10 minutes to avoid duplicate LLM calls. Pass
+    refresh=True to force re-analysis.
+    """
     arts = _summarized(session, limit)
     if not arts:
-        return {"trends": [], "analyzed": 0}
+        return {"trends": [], "analyzed": 0, "cached": False}
+
+    cache_key = (limit, arts[0].id, len(arts))
+    now = time.time()
+    if (
+        not refresh
+        and _TRENDS_CACHE["data"]
+        and _TRENDS_CACHE["key"] == cache_key
+        and now - _TRENDS_CACHE["ts"] < _TRENDS_TTL_SECONDS
+    ):
+        return {**_TRENDS_CACHE["data"], "cached": True}
 
     client = _client()
     corpus = "\n".join(
@@ -64,7 +82,11 @@ def detect_trends(session: Session, limit: int = 30) -> dict:
         response_format={"type": "json_object"},
     )
     data = json.loads(resp.choices[0].message.content)
-    return {"trends": data.get("trends", []), "analyzed": len(arts)}
+    result = {"trends": data.get("trends", []), "analyzed": len(arts)}
+    _TRENDS_CACHE["data"] = result
+    _TRENDS_CACHE["ts"] = now
+    _TRENDS_CACHE["key"] = cache_key
+    return {**result, "cached": False}
 
 
 def _score(question: str, art: Article) -> int:

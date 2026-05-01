@@ -73,9 +73,10 @@ def list_sources(session: Session = Depends(get_session)):
 def trends(
     session: Session = Depends(get_session),
     limit: int = Query(default=30, ge=5, le=100),
+    refresh: bool = Query(default=False),
 ):
     try:
-        return detect_trends(session, limit)
+        return detect_trends(session, limit, refresh=refresh)
     except RuntimeError as exc:
         raise HTTPException(status_code=500, detail=str(exc))
 
