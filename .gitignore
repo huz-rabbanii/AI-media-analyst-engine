@@ -1,5 +1,14 @@
+# Python
 .venv/
 __pycache__/
 *.pyc
+
+# Local config & data
 .env
 *.db
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
