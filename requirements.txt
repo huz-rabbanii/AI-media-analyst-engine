@@ -1,6 +1,13 @@
+# Web framework
 fastapi
 uvicorn[standard]
+
+# Data layer
 sqlmodel
+
+# Ingestion
 feedparser
+
+# Config & AI
 pydantic-settings
 openai>=1.0
