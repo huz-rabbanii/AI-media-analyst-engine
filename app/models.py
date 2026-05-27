@@ -5,6 +5,8 @@ from sqlmodel import Field, SQLModel
 
 
 class Article(SQLModel, table=True):
+    """A single ingested news article and its optional AI-generated summary."""
+
     id: Optional[int] = Field(default=None, primary_key=True)
     url: str = Field(unique=True, index=True)
     title: str
