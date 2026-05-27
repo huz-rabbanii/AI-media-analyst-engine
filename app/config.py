@@ -11,6 +11,8 @@ DEFAULT_FEEDS = [
 
 
 class Settings(BaseSettings):
+    """Application settings loaded from environment variables / .env file."""
+
     DATABASE_URL: str = "sqlite:///./media.db"
     OPENAI_API_KEY: str = ""
     OPENAI_MODEL: str = "gpt-4o-mini"
