@@ -1,3 +1,5 @@
+"""Database engine, session factory, and lightweight schema migrations."""
+
 from sqlalchemy import text
 from sqlmodel import Session, SQLModel, create_engine
 
