@@ -27,6 +27,7 @@ _WORD_RE = re.compile(r"[a-z0-9]+")
 
 
 def _client() -> OpenAI:
+    """Build an OpenAI client, raising if the API key is not configured."""
     if not settings.OPENAI_API_KEY:
         raise RuntimeError("OPENAI_API_KEY is not set")
     return OpenAI(api_key=settings.OPENAI_API_KEY)
