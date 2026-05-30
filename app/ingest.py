@@ -23,6 +23,7 @@ def _source_from(feed_url: str, parsed_title: str | None) -> str:
 
 
 def ingest_feeds(feed_urls: list[str], session: Session) -> dict:
+    """Fetch each RSS feed and persist new articles, returning a run summary."""
     inserted = 0
     skipped = 0
     errors: list[dict] = []
