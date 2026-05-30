@@ -21,6 +21,7 @@ _SYSTEM_PROMPT = (
 
 
 def _clean(text: str) -> str:
+    """Strip HTML tags and unescape entities from raw feed text."""
     return unescape(_TAG_RE.sub(" ", text)).strip()
 
 
