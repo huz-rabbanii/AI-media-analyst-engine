@@ -31,6 +31,7 @@ app.add_middleware(
 
 @app.get("/health")
 def health():
+    """Liveness probe used by uptime checks and the frontend."""
     return {"status": "ok"}
 
 
